@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:19:05 by ncollign          #+#    #+#             */
-/*   Updated: 2024/08/12 15:34:12 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:36:28 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ int	main(int argc, char **argv)
 	{
 		init_args(argc, argv, &rules);
 		init_philo();
-		
 	}
 	return (1);
 }
