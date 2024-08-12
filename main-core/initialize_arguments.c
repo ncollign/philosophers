@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:19:05 by ncollign          #+#    #+#             */
-/*   Updated: 2024/08/12 14:41:59 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:34:12 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,38 @@ int	is_valid_arg(char *arg)
 	return (1);
 }
 
-void	define_args(char **args)
+int	ft_atoi(const char *str)
+/*
+	This function converts str into int
+*/
+{
+	int	result;
+	int	sign;
+
+	result = 0;
+	sign = 1;
+	while (*str == ' ' || (*str >= 9 && *str <= 13))
+	{
+		str++;
+	}
+	if (*str == '-')
+	{
+		sign = -1;
+		str++;
+	}
+	else if (*str == '+')
+	{
+		str++;
+	}
+	while (*str >= '0' && *str <= '9')
+	{
+		result = result * 10 + (*str - '0');
+		str++;
+	}
+	return (result * sign);
+}
+
+void	init_args(int argc, char **args, t_rules *rules)
 /*
 	This function verifies each argument and define it in a struct
 	Exit the program if invalid argument
@@ -55,6 +86,7 @@ void	define_args(char **args)
 	int	i;
 
 	i = 1;
+	(void)argc;
 	while (args[i])
 	{
 		if (is_valid_arg(args[i]) == 0)
@@ -64,7 +96,12 @@ void	define_args(char **args)
 		}
 		i++;
 	}
-	printf("Args OK\n");
+	rules->nb_philo = ft_atoi(args[1]);
+	rules->time_to_die = ft_atoi(args[2]);
+	rules->time_to_eat = ft_atoi(args[3]);
+	rules->time_to_sleep = ft_atoi(args[4]);
+	if (argc == 6)
+		rules->nb_time_eat = ft_atoi(args[5]);
 }
 
 int	main(int argc, char **argv)
@@ -72,11 +109,15 @@ int	main(int argc, char **argv)
 	This function initialize the simulation
 */
 {
+	t_rules	rules;
+
 	if (argc < 5 || argc > 6)
 		printf("Error\nPlease enter only 4 or 5 arguments\n");
 	else
 	{
-		define_args(&argv[1]);
+		init_args(argc, argv, &rules);
+		init_philo();
+		
 	}
 	return (1);
 }

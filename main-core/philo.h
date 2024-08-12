@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:19:08 by ncollign          #+#    #+#             */
-/*   Updated: 2024/08/12 14:41:02 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:35:10 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,16 @@ typedef struct s_philo
 	pthread_mutex_t	*meal_lock;
 }					t_philo;
 
-typedef struct s_program
+typedef struct s_rules
 {
-	int				dead_flag;
-	pthread_mutex_t	dead_lock;
-	pthread_mutex_t	meal_lock;
-	pthread_mutex_t	write_lock;
 	t_philo			*philos;
-}					t_program;
+	int				nb_philo;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				nb_time_eat;
+}					t_rules;
+
+void	init_philo(void);
 
 #endif
