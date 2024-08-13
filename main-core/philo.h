@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:19:08 by ncollign          #+#    #+#             */
-/*   Updated: 2024/08/12 15:43:23 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/08/13 11:23:30 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_rules
 	int					nb_time_eat;
 }					t_rules;
 
-void	init_philo(void);
+void	init_philo(t_rules *rules);
+int		ft_atoi(const char *str);
 
 #endif

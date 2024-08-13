@@ -1,35 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initialize_philosophers.c                          :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/12 15:34:31 by ncollign          #+#    #+#             */
-/*   Updated: 2024/08/13 11:24:41 by ncollign         ###   ########.fr       */
+/*   Created: 2024/08/13 11:20:59 by ncollign          #+#    #+#             */
+/*   Updated: 2024/08/13 11:23:20 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	routine(void)
+int	ft_atoi(const char *str)
+/*
+	This function converts str into int
+*/
 {
-	
-}
+	int	result;
+	int	sign;
 
-static void	create_philo(void)
-{
-	
-}
-
-void	init_philo(t_rules *rules)
-{
-	int	i;
-
-	i = 0;
-	while (i <= rules->nb_philo)
+	result = 0;
+	sign = 1;
+	while (*str == ' ' || (*str >= 9 && *str <= 13))
+		str++;
+	if (*str == '-')
 	{
-		create_philo();
-		i++;
+		sign = -1;
+		str++;
 	}
+	else if (*str == '+')
+		str++;
+	while (*str >= '0' && *str <= '9')
+	{
+		result = result * 10 + (*str - '0');
+		str++;
+	}
+	return (result * sign);
 }

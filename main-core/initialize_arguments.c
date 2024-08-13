@@ -6,13 +6,13 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:19:05 by ncollign          #+#    #+#             */
-/*   Updated: 2024/08/12 15:36:28 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/08/13 11:21:29 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_isdigit(int c)
+static int	ft_isdigit(int c)
 /*
 	This function tests if a char is a digit
 	Returns 1 if OK
@@ -27,7 +27,7 @@ int	ft_isdigit(int c)
 		return (0);
 }
 
-int	is_valid_arg(char *arg)
+static int	is_valid_arg(char *arg)
 /*
 	Test if an argument is composed only of numbers
 	Returns 1 if OK
@@ -46,38 +46,7 @@ int	is_valid_arg(char *arg)
 	return (1);
 }
 
-int	ft_atoi(const char *str)
-/*
-	This function converts str into int
-*/
-{
-	int	result;
-	int	sign;
-
-	result = 0;
-	sign = 1;
-	while (*str == ' ' || (*str >= 9 && *str <= 13))
-	{
-		str++;
-	}
-	if (*str == '-')
-	{
-		sign = -1;
-		str++;
-	}
-	else if (*str == '+')
-	{
-		str++;
-	}
-	while (*str >= '0' && *str <= '9')
-	{
-		result = result * 10 + (*str - '0');
-		str++;
-	}
-	return (result * sign);
-}
-
-void	init_args(int argc, char **args, t_rules *rules)
+static void	init_args(int argc, char **args, t_rules *rules)
 /*
 	This function verifies each argument and define it in a struct
 	Exit the program if invalid argument
@@ -116,7 +85,7 @@ int	main(int argc, char **argv)
 	else
 	{
 		init_args(argc, argv, &rules);
-		init_philo();
+		init_philo(&rules);
 	}
 	return (1);
 }
