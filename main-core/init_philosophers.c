@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:34:31 by ncollign          #+#    #+#             */
-/*   Updated: 2024/08/19 10:50:33 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/08/19 11:11:42 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,13 @@ static void	create_philo(t_rules *rules, int i)
 	philospher.dead = 0;
 	philospher.nb_eat = 0;
 	philospher.r_fork_id = i;
+	philospher.rules = rules;
 	if (i == rules->nb_philo)
 		philospher.l_fork_id = 1;
 	else
 		philospher.l_fork_id = i + 1;
-	rules->philos[i] = philospher;
+	rules->philos[i - 1] = philospher;
+	pthread_create(&(rules->philos[i - 1].thread_id), NULL, routine, &(rules->philos[i - 1]));
 }
 
 void	init_philo(t_rules *rules)
@@ -42,7 +44,7 @@ void	init_philo(t_rules *rules)
 	i = 1;
 	while (i <= rules->nb_philo)
 	{
-		pthread_mutex_init(&rules->forks[i], NULL);
+		pthread_mutex_init(&rules->forks[i - 1], NULL);
 		create_philo(rules, i);
 		i++;
 	}

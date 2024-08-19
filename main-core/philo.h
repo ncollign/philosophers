@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:19:08 by ncollign          #+#    #+#             */
-/*   Updated: 2024/08/13 11:23:30 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/08/19 11:32:02 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_philo
 	int				dead;
 	int				r_fork_id;
 	int				l_fork_id;
+	t_rules			*rules;
 }					t_philo;
 
 typedef struct s_rules
@@ -39,5 +40,6 @@ typedef struct s_rules
 
 void	init_philo(t_rules *rules);
 int		ft_atoi(const char *str);
+void	routine(t_philo *philo);
 
 #endif
