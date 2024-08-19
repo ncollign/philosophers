@@ -24,7 +24,6 @@ typedef struct s_philo
 	int				dead;
 	int				r_fork_id;
 	int				l_fork_id;
-	t_rules			*rules;
 }					t_philo;
 
 typedef struct s_rules
