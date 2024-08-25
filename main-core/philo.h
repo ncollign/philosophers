@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:19:08 by ncollign          #+#    #+#             */
-/*   Updated: 2024/08/25 17:47:00 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/08/25 17:55:25 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 # include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <unistd.h>
+
 
 typedef struct s_rules t_rules;
 typedef struct s_philo
@@ -41,6 +43,6 @@ typedef struct s_rules
 
 void	init_philo(t_rules *rules);
 int		ft_atoi(const char *str);
-void	routine(t_philo *philo);
+void	*routine(void *philo);
 
 #endif
