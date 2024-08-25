@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 10:48:47 by ncollign          #+#    #+#             */
-/*   Updated: 2024/08/25 17:48:25 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/08/25 18:37:26 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	start_simulation(t_rules *rules)
 		i++;
 	}
 	i = 0;
+	gettimeofday(&rules->time, NULL);
+	rules->start_time = get_time_in_ms(rules->time);
 	while (i < rules->nb_philo)
 	{
 		pthread_join(rules->philos[i].thread_id, NULL);

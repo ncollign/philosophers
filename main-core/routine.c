@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:03:01 by ncollign          #+#    #+#             */
-/*   Updated: 2024/08/25 17:56:02 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/08/25 18:40:07 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,13 @@ static void	philo_eat(t_philo *philo)
 	- Wait while eating
 */
 {
+	long	new_meal;
+	long	current_time;
+	
 	pthread_mutex_lock(&philo->rules->forks[philo->r_fork_id]);
-	printf("TIME %d has taken a fork\n", philo->id);
+	gettimeofday(&philo->rules->time, NULL);
+	current_time = get_time_in_ms(philo->rules->time) - philo->rules->start_time;// A reproduire partout
+	printf("%d %d has taken a fork\n",current_time, philo->id);
 	pthread_mutex_lock(&philo->rules->forks[philo->l_fork_id]);
 	printf("TIME %d has taken a fork\n", philo->id);
 	printf("TIME %d is eating\n", philo->id);
@@ -51,6 +56,12 @@ static void	philo_eat(t_philo *philo)
 	philo->nb_eat++;
 	pthread_mutex_unlock(&philo->rules->forks[philo->r_fork_id]);
 	pthread_mutex_unlock(&philo->rules->forks[philo->l_fork_id]);
+	gettimeofday(&philo->rules->time, NULL);
+	new_meal = get_time_in_ms(philo->rules->time);
+	if (new_meal - philo->last_meal < philo->rules->time_to_die)
+		philo->last_meal = new_meal; // Redéfinir le dernier repas
+	else // Le philo est mort de faim
+		philo->dead = 1;
 }
 
 void	*routine(void *arg)
@@ -58,6 +69,8 @@ void	*routine(void *arg)
 	t_philo *philo;
 
 	philo = (t_philo *)arg;
+	gettimeofday(&philo->rules->time, NULL);
+	philo->last_meal = get_time_in_ms(philo->rules->time); // Définir le premier repas (On considère que chaque philo commence l'estomac plein)
 	while (1)
 	{
 		// Calculer temps depuis dernier repas
