@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:19:08 by ncollign          #+#    #+#             */
-/*   Updated: 2024/08/19 11:32:02 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/08/25 17:47:00 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 
+typedef struct s_rules t_rules;
 typedef struct s_philo
 {
 	pthread_t		thread_id;
