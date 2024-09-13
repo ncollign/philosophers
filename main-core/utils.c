@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 11:20:59 by ncollign          #+#    #+#             */
-/*   Updated: 2024/08/25 18:26:08 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/08/28 12:34:28 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,22 +39,13 @@ int	ft_atoi(const char *str)
 	return (result * sign);
 }
 
-long get_time_in_ms(struct timeval start)
+long get_current_time(t_rules *rules)
 {
-	struct timeval current;
-	long seconds;
-	long useconds;
-	long milliseconds;
+    struct timeval current_time;
+    long milliseconds;
 
-	// Obtenez le temps actuel
-	gettimeofday(&current, NULL);
-
-	// Calculez la différence entre le temps actuel et le temps de départ
-	seconds = current.tv_sec - start.tv_sec;
-	useconds = current.tv_usec - start.tv_usec;
-
-	// Convertir en millisecondes
-	milliseconds = (seconds * 1000) + (useconds / 1000);
-
-	return (milliseconds);
+    gettimeofday(&current_time, NULL);
+    milliseconds = (current_time.tv_sec - rules->start_time.tv_sec) * 1000;
+    milliseconds += (current_time.tv_usec - rules->start_time.tv_usec) / 1000;
+    return milliseconds;
 }

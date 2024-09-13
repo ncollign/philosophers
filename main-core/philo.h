@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:19:08 by ncollign          #+#    #+#             */
-/*   Updated: 2024/08/25 18:37:07 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/08/28 12:34:38 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,15 @@ typedef struct s_rules
 	int					time_to_eat;
 	int					time_to_sleep;
 	int					nb_time_eat;
-	long				start_time;
-	struct timeval		time;
+	struct timeval		start_time;
+	int					simulation_running;
+    pthread_mutex_t		sim_mutex;
 }					t_rules;
 
 void	init_philo(t_rules *rules);
 int		ft_atoi(const char *str);
 void	*routine(void *philo);
-long	get_time_in_ms(struct timeval start)
+long	get_current_time(t_rules *rules);
+void	*observer(void *arg);
 
 #endif

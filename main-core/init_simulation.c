@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 10:48:47 by ncollign          #+#    #+#             */
-/*   Updated: 2024/08/25 18:37:26 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/08/28 12:38:58 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,25 @@
 
 void	start_simulation(t_rules *rules)
 {
-	int i;
+	int			i;
+	pthread_t	observer_thread;
 
+	gettimeofday(&rules->start_time, NULL);
+	printf("HELLO");
+	printf("TEMPS : %ld", get_current_time(rules));
 	i = 0;
 	while (i < rules->nb_philo)
 	{
 		pthread_create(&(rules->philos[i].thread_id), NULL, routine, &(rules->philos[i]));
 		i++;
 	}
+	pthread_create(&observer_thread, NULL, observer, rules);
 	i = 0;
-	gettimeofday(&rules->time, NULL);
-	rules->start_time = get_time_in_ms(rules->time);
 	while (i < rules->nb_philo)
 	{
 		pthread_join(rules->philos[i].thread_id, NULL);
 		i++;
 	}
+	pthread_join(observer_thread, NULL);
+	pthread_mutex_destroy(&rules->sim_mutex);
 }
