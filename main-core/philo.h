@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:19:08 by ncollign          #+#    #+#             */
-/*   Updated: 2024/08/28 12:34:38 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/10/21 14:01:36 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ int		ft_atoi(const char *str);
 void	*routine(void *philo);
 long	get_current_time(t_rules *rules);
 void	*observer(void *arg);
+void	start_simulation(t_rules *rules);
 
 #endif

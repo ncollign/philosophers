@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 11:20:59 by ncollign          #+#    #+#             */
-/*   Updated: 2024/08/28 12:34:28 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/10/21 14:05:28 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ int	ft_atoi(const char *str)
 	return (result * sign);
 }
 
-long get_current_time(t_rules *rules)
+long	get_current_time(t_rules *rules)
 {
-    struct timeval current_time;
-    long milliseconds;
+	struct timeval	current_time;
+	long			time_in_ms;
 
-    gettimeofday(&current_time, NULL);
-    milliseconds = (current_time.tv_sec - rules->start_time.tv_sec) * 1000;
-    milliseconds += (current_time.tv_usec - rules->start_time.tv_usec) / 1000;
-    return milliseconds;
+	gettimeofday(&current_time, NULL);
+	time_in_ms = (current_time.tv_sec - rules->start_time.tv_sec) * 1000;
+	time_in_ms += (current_time.tv_usec - rules->start_time.tv_usec) / 1000;
+	return (time_in_ms);
 }

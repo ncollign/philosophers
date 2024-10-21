@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:19:05 by ncollign          #+#    #+#             */
-/*   Updated: 2024/08/28 12:25:56 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/10/21 14:01:45 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	main(int argc, char **argv)
 	{
 		init_args(argc, argv, &rules);
 		init_philo(&rules);
+		start_simulation(&rules);
 	}
 	return (1);
 }
