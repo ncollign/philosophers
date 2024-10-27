@@ -6,13 +6,30 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:03:01 by ncollign          #+#    #+#             */
-/*   Updated: 2024/10/21 14:21:35 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/10/27 19:58:52 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	philo_think(t_philo *philo)
+static int	is_simulation_running(t_philo *philo)
+/*
+	This function checks if the simulation is still running
+	If Running : Returns 1
+	If Not Running : Returns 0
+*/
+{
+	pthread_mutex_lock(&philo->rules->sim_mutex);
+	if (philo->rules->simulation_running == 0)
+	{
+		pthread_mutex_unlock(&philo->rules->sim_mutex);
+		return (0);
+	}
+	pthread_mutex_unlock(&philo->rules->sim_mutex);
+	return (1);
+}
+
+static int	philo_think(t_philo *philo)
 /*
 	Function called when a philospher is thinking
 	- Display a message
@@ -21,12 +38,15 @@ static void	philo_think(t_philo *philo)
 {
 	long	current_time;
 
+	if (!is_simulation_running(philo))
+		return (0);
 	current_time = get_current_time(philo->rules);
 	printf("%ld %d is thinking\n", current_time, philo->id);
 	usleep(1000);
+	return (1);
 }
 
-static void	philo_sleep(t_philo *philo)
+static int	philo_sleep(t_philo *philo)
 /*
 	Function called when a philospher is sleeping
 	- Display message
@@ -35,9 +55,12 @@ static void	philo_sleep(t_philo *philo)
 {
 	long	current_time;
 
+	if (!is_simulation_running(philo))
+		return (0);
 	current_time = get_current_time(philo->rules);
 	printf("%ld %d is sleeping\n", current_time, philo->id);
 	usleep(philo->rules->time_to_sleep * 1000);
+	return (1);
 }
 
 static int	philo_eat(t_philo *philo)
@@ -50,13 +73,8 @@ static int	philo_eat(t_philo *philo)
 {
 	long	current_time;
 	
-	pthread_mutex_lock(&philo->rules->sim_mutex);
-    if (philo->rules->simulation_running == 0)
-    {
-        pthread_mutex_unlock(&philo->rules->sim_mutex);
-        return (0);
-    }
-    pthread_mutex_unlock(&philo->rules->sim_mutex);
+	if (!is_simulation_running(philo))
+		return (0);
 	// Prise des fourchettes
 	pthread_mutex_lock(&philo->rules->forks[philo->r_fork_id]);
 	current_time = get_current_time(philo->rules);
@@ -84,24 +102,14 @@ void	*routine(void *arg)
     while (1)
     {
         // Vérifier si la simulation est toujours en cours
-        pthread_mutex_lock(&philo->rules->sim_mutex);
-        if (philo->rules->simulation_running == 0)
-        {
-            pthread_mutex_unlock(&philo->rules->sim_mutex);
-            break;
-        }
-        pthread_mutex_unlock(&philo->rules->sim_mutex);
-
-        // Tentative de manger
+        if (!is_simulation_running(philo))
+			break;
         if (!philo_eat(philo))
-            break; // Si philo_eat retourne 0, arrêter la routine
-
-        // Vérifier le nombre de repas
-        if (philo->nb_eat >= philo->rules->nb_time_eat && philo->rules->nb_time_eat != -1)
             break;
-
-        philo_sleep(philo);
-        philo_think(philo);
+		if (!philo_sleep(philo))
+			break;
+        if (!philo_think(philo))
+			break;
     }
     return (NULL);
 }

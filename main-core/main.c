@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:19:05 by ncollign          #+#    #+#             */
-/*   Updated: 2024/10/21 14:01:45 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/10/26 21:36:22 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ static void	init_args(int argc, char **args, t_rules *rules)
 		rules->nb_time_eat = ft_atoi(args[5]);
 	else
 		rules->nb_time_eat = -1;
-	rules->simulation_running = 1;
-    pthread_mutex_init(&rules->sim_mutex, NULL);
 }
 
 int	main(int argc, char **argv)

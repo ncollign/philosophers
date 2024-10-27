@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:34:31 by ncollign          #+#    #+#             */
-/*   Updated: 2024/10/21 14:06:21 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/10/26 21:34:57 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static void	create_philo(t_rules *rules, int i)
 	else
 		philospher.l_fork_id = i + 1;
 	rules->philos[i - 1] = philospher;
-	//pthread_create(&(rules->philos[i - 1].thread_id), NULL, routine, &(rules->philos[i - 1]));
 }
 
 void	init_philo(t_rules *rules)

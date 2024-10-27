@@ -6,15 +6,28 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:17:18 by ncollign          #+#    #+#             */
-/*   Updated: 2024/10/26 20:58:29 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/10/27 19:13:40 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	exit_simulation(t_rules rules)
+void	exit_simulation(t_rules *rules)
 {
-	printf("Hello %d\n", rules.nb_philo);
+	int i;
+	
+	printf("INFO\nEscaping the simulation...\n");
+	i = 0;
+	// Détruire les mutex des fourchettes
+	while (i < rules->nb_philo)
+	{
+		pthread_mutex_destroy(&rules->forks[i]);
+		i++;
+	}
+	pthread_mutex_destroy(&rules->sim_mutex);
+	free(rules->philos);
+	free(rules->forks);
+	printf("INFO\nSimulation terminated.\n");
 }
 
 
@@ -33,7 +46,6 @@ void	*observer(void *arg)
             if (rules->simulation_running == 0)
             {
                 pthread_mutex_unlock(&rules->sim_mutex);
-                exit_simulation(*rules);
 				return(NULL);
             }
             pthread_mutex_unlock(&rules->sim_mutex);
@@ -45,7 +57,6 @@ void	*observer(void *arg)
                 rules->simulation_running = 0;
                 pthread_mutex_unlock(&rules->sim_mutex);
                 printf("%ld %d died\n", get_current_time(rules), rules->philos[i].id);
-				exit_simulation(*rules);
 				return(NULL);
             }
             i++;
