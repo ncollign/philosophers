@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:03:01 by ncollign          #+#    #+#             */
-/*   Updated: 2024/10/27 19:58:52 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/10/28 15:48:03 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,34 @@ static int	philo_eat(t_philo *philo)
 	if (!is_simulation_running(philo))
 		return (0);
 	// Prise des fourchettes
-	pthread_mutex_lock(&philo->rules->forks[philo->r_fork_id]);
-	current_time = get_current_time(philo->rules);
-    printf("%ld %d has taken a fork\n", current_time, philo->id);
-	pthread_mutex_lock(&philo->rules->forks[philo->l_fork_id]);
-	current_time = get_current_time(philo->rules);
-    printf("%ld %d has taken a fork\n", current_time, philo->id);
+	// Les philp pairs prennent la gauche puis la droite
+	// Les philo impairs prennent la droite puis la gauche
+	// Pour éviter les deadlocks
+	if (philo->id % 2 == 0)
+    {
+        // Philosophe pair : prend d'abord la fourchette de gauche, puis celle de droite
+        pthread_mutex_lock(&philo->rules->forks[philo->l_fork_id]);
+        current_time = get_current_time(philo->rules);
+        printf("%ld %d has taken a fork\n", current_time, philo->id);
+
+        pthread_mutex_lock(&philo->rules->forks[philo->r_fork_id]);
+        current_time = get_current_time(philo->rules);
+        printf("%ld %d has taken a fork\n", current_time, philo->id);
+    }
+    else
+    {
+        // Philosophe impair : prend d'abord la fourchette de droite, puis celle de gauche
+        pthread_mutex_lock(&philo->rules->forks[philo->r_fork_id]);
+        current_time = get_current_time(philo->rules);
+        printf("%ld %d has taken a fork\n", current_time, philo->id);
+
+        pthread_mutex_lock(&philo->rules->forks[philo->l_fork_id]);
+        current_time = get_current_time(philo->rules);
+        printf("%ld %d has taken a fork\n", current_time, philo->id);
+    }
+
+
+	
 	current_time = get_current_time(philo->rules);
 	printf("%ld %d is eating\n", current_time, philo->id);
 	usleep(philo->rules->time_to_eat * 1000);
@@ -111,5 +133,6 @@ void	*routine(void *arg)
         if (!philo_think(philo))
 			break;
     }
+	printf("Philo OK");
     return (NULL);
 }
