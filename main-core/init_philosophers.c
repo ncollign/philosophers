@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:34:31 by ncollign          #+#    #+#             */
-/*   Updated: 2024/10/26 21:34:57 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/11/02 16:06:32 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	init_philo(t_rules *rules)
 	{
 		pthread_mutex_init(&rules->forks[i - 1], NULL);
 		create_philo(rules, i);
+		printf("Philo créé\n");
 		i++;
 	}
 }
