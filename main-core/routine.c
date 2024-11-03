@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:03:01 by ncollign          #+#    #+#             */
-/*   Updated: 2024/10/28 15:48:03 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/11/02 15:48:41 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,9 +121,8 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
     philo->last_meal = get_current_time(philo->rules);
-    while (1)
+    while (is_simulation_running(philo))
     {
-        // Vérifier si la simulation est toujours en cours
         if (!is_simulation_running(philo))
 			break;
         if (!philo_eat(philo))
@@ -133,6 +132,6 @@ void	*routine(void *arg)
         if (!philo_think(philo))
 			break;
     }
-	printf("Philo OK");
+	printf("Philo OK\n");
     return (NULL);
 }
