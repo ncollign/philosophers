@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 10:48:47 by ncollign          #+#    #+#             */
-/*   Updated: 2024/10/26 21:47:10 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/11/02 16:17:06 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	start_simulation(t_rules *rules)
 {
 	int			i;
 	pthread_t	observer_thread;
+	pthread_mutex_t print_mutex;
 
 	rules->simulation_running = 1;
     pthread_mutex_init(&rules->sim_mutex, NULL);
