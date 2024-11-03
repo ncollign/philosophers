@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 15:34:31 by ncollign          #+#    #+#             */
-/*   Updated: 2024/11/02 16:06:32 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/11/03 18:34:15 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,22 @@
 
 static void	create_philo(t_rules *rules, int i)
 /*
-	This function creates a philospher
+	This function creates a philosopher
 */
 {
-	t_philo	philospher;
+	t_philo	philosopher;
 
-	philospher.id = i;
-	philospher.dead = 0;
-	philospher.nb_eat = 0;
-	philospher.r_fork_id = i;
-	philospher.rules = rules;
-	if (i == rules->nb_philo)
-		philospher.l_fork_id = 1;
+	philosopher.id = i;
+	philosopher.dead = 0;
+	philosopher.nb_eat = 0;
+	philosopher.last_meal = get_current_time(rules);
+	philosopher.l_fork_id = i - 1;
+	philosopher.rules = rules;
+	if (i == 1)
+		philosopher.r_fork_id = rules->nb_philo - 1;
 	else
-		philospher.l_fork_id = i + 1;
-	rules->philos[i - 1] = philospher;
+		philosopher.r_fork_id = i - 2;
+	rules->philos[i - 1] = philosopher;
 }
 
 void	init_philo(t_rules *rules)
@@ -45,7 +46,6 @@ void	init_philo(t_rules *rules)
 	{
 		pthread_mutex_init(&rules->forks[i - 1], NULL);
 		create_philo(rules, i);
-		printf("Philo créé\n");
 		i++;
 	}
 }

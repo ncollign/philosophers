@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 11:20:59 by ncollign          #+#    #+#             */
-/*   Updated: 2024/10/21 14:05:28 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/11/03 18:02:40 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,3 +49,10 @@ long	get_current_time(t_rules *rules)
 	time_in_ms += (current_time.tv_usec - rules->start_time.tv_usec) / 1000;
 	return (time_in_ms);
 }
+
+/*void	ft_printf_mutex(t_rules *rules, char to_print[256])
+{
+	pthread_mutex_lock(&philo->rules->print_mutex); // Modifier rules directement
+	printf("%ld %d has taken a fork\n", current_time, philo->id);
+	pthread_mutex_unlock(&philo->rules->print_mutex);
+}*/

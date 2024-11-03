@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 10:48:47 by ncollign          #+#    #+#             */
-/*   Updated: 2024/11/02 16:17:06 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/11/03 18:11:28 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,16 @@ void	start_simulation(t_rules *rules)
 {
 	int			i;
 	pthread_t	observer_thread;
-	pthread_mutex_t print_mutex;
 
-	rules->simulation_running = 1;
-    pthread_mutex_init(&rules->sim_mutex, NULL);
+	//rules->simulation_running = 1;
+    //pthread_mutex_init(&rules->sim_mutex, NULL);
+	pthread_mutex_init(&rules->print_mutex, NULL);
 	gettimeofday(&rules->start_time, NULL);
 	i = 0;
 	while (i < rules->nb_philo)
 	{
 		pthread_create(&(rules->philos[i].thread_id), NULL, routine, &(rules->philos[i]));
+		//&rules->philos[i].last_meal = get_current_time(rules);
 		i++;
 	}
 	pthread_create(&observer_thread, NULL, observer, rules);
@@ -35,5 +36,4 @@ void	start_simulation(t_rules *rules)
 		i++;
 	}
 	pthread_join(observer_thread, NULL);
-	exit_simulation(rules);
 }
