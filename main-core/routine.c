@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:03:01 by ncollign          #+#    #+#             */
-/*   Updated: 2024/11/03 18:21:16 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/11/04 17:17:41 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,6 @@ static void	philo_eat(t_philo *philo)
         current_time = get_current_time(philo->rules);
         printf("%ld %d has taken a fork\n", current_time, philo->id);
     }
-
-
-	
 	current_time = get_current_time(philo->rules);
 	printf("%ld %d is eating\n", current_time, philo->id);
 	philo->last_meal = current_time;
@@ -100,6 +97,5 @@ void	*routine(void *arg)
 		philo_sleep(philo);
         philo_think(philo);
     }
-	printf("Philo OK\n");
     return (NULL);
 }

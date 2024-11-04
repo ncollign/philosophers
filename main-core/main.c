@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:19:05 by ncollign          #+#    #+#             */
-/*   Updated: 2024/10/26 21:36:22 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:45:07 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,11 @@ static void	init_args(int argc, char **args, t_rules *rules)
 		i++;
 	}
 	rules->nb_philo = ft_atoi(args[1]);
+	if (rules->nb_philo == 0)
+	{
+		printf("Error\nInvalid arguments\n");
+		exit(EXIT_FAILURE);
+	}
 	rules->time_to_die = ft_atoi(args[2]);
 	rules->time_to_eat = ft_atoi(args[3]);
 	rules->time_to_sleep = ft_atoi(args[4]);

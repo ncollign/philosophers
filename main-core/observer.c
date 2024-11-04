@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:17:18 by ncollign          #+#    #+#             */
-/*   Updated: 2024/11/03 18:11:02 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/11/04 17:17:21 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,31 +36,35 @@ void	*observer(void *arg)
 	t_rules	*rules = (t_rules *)arg;
 	long	time_since_last_meal;
 	int		i;
-
+	int		nb_eat_reached;
+	
 	while (1)
 	{
 		i = 0;
+		nb_eat_reached = 1;
 		while (i < rules->nb_philo)
 		{
 			time_since_last_meal = get_current_time(rules) - rules->philos[i].last_meal;
-
 			if (time_since_last_meal >= rules->time_to_die)
 			{
-				// Verrouiller le mutex d'affichage
 				pthread_mutex_lock(&rules->print_mutex);
 				printf("%ld %d died\n", get_current_time(rules), rules->philos[i].id);
-				// Déverrouiller le mutex d'affichage
 				pthread_mutex_unlock(&rules->print_mutex);
-
-				// Nettoyer les ressources
 				cleanup(rules);
-
-				// Terminer le programme
-				exit(0);
+				exit(EXIT_SUCCESS);
 			}
+			if ((nb_eat_reached == 1) && (rules->philos[i].nb_eat < rules->nb_time_eat))
+				nb_eat_reached = 0;
+			if (i == 4 && nb_eat_reached == 1)
+			{
+				printf("Every philo has eat at leat %d times\n", rules->nb_time_eat);
+				cleanup(rules);
+				exit(EXIT_SUCCESS);
+			}
+				
 			i++;
 		}
-		usleep(1000); // Pause pour éviter de surcharger le CPU
+		usleep(1000);
 	}
 	return (NULL);
 }

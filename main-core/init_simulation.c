@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 10:48:47 by ncollign          #+#    #+#             */
-/*   Updated: 2024/11/03 18:11:28 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/11/04 17:28:31 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	start_simulation(t_rules *rules)
 	while (i < rules->nb_philo)
 	{
 		pthread_create(&(rules->philos[i].thread_id), NULL, routine, &(rules->philos[i]));
-		//&rules->philos[i].last_meal = get_current_time(rules);
 		i++;
 	}
 	pthread_create(&observer_thread, NULL, observer, rules);
