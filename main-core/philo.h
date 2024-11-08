@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:19:08 by ncollign          #+#    #+#             */
-/*   Updated: 2024/11/04 17:17:53 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/11/08 13:53:57 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ typedef struct s_philo
 	pthread_t		thread_id;
 	int				id;
 	int				nb_eat;
-	int				dead;
 	long			last_meal;
 	int				r_fork_id;
 	int				l_fork_id;
@@ -41,6 +40,7 @@ typedef struct s_rules
 	int					time_to_eat;
 	int					time_to_sleep;
 	int					nb_time_eat;
+	int					is_simulation_running;
 	struct timeval		start_time;
 	pthread_mutex_t		print_mutex;
 }					t_rules;

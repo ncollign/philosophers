@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:17:18 by ncollign          #+#    #+#             */
-/*   Updated: 2024/11/08 12:20:37 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/11/08 14:03:23 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,16 @@ void	cleanup(t_rules *rules)
 {
 	int i;
 
-	// Détruire les mutex des fourchettes
 	i = 0;
 	while (i < rules->nb_philo)
 	{
-		pthread_mutex_destroy(&rules->forks[i]);
+		pthread_join(rules->philos[i].thread_id, NULL);
 		i++;
 	}
-	// Détruire le mutex d'affichage
+	i = 0;
+	while (i++ < rules->nb_philo)
+		pthread_mutex_destroy(&rules->forks[i]);
 	pthread_mutex_destroy(&rules->print_mutex);
-
-	// Libérer la mémoire allouée
 	free(rules->philos);
 	free(rules->forks);
 }
@@ -38,7 +37,7 @@ void	*observer(void *arg)
 	int		i;
 	int		nb_eat_reached;
 	
-	while (1)
+	while (rules->is_simulation_running)
 	{
 		i = 0;
 		nb_eat_reached = 1;
@@ -50,8 +49,8 @@ void	*observer(void *arg)
 				pthread_mutex_lock(&rules->print_mutex);
 				printf("%ld %d died\n", get_current_time(rules), rules->philos[i].id);
 				pthread_mutex_unlock(&rules->print_mutex);
-				cleanup(rules);
-				exit(EXIT_SUCCESS);
+				rules->is_simulation_running = 0;
+				break;
 			}
 			if ((nb_eat_reached == 1) && (rules->philos[i].nb_eat < rules->nb_time_eat))
 				nb_eat_reached = 0;
@@ -60,12 +59,13 @@ void	*observer(void *arg)
 				pthread_mutex_lock(&rules->print_mutex);
 				printf("Every philo has eat at least %d times\n", rules->nb_time_eat);
 				pthread_mutex_unlock(&rules->print_mutex);
-				cleanup(rules);
-				exit(EXIT_SUCCESS);
+				rules->is_simulation_running = 0;
+				break;
 			}
 			i++;
 		}
 		usleep(1000);
 	}
+	cleanup(rules);
 	return (NULL);
 }

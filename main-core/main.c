@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:19:05 by ncollign          #+#    #+#             */
-/*   Updated: 2024/11/08 12:20:22 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/11/08 13:51:37 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,15 +85,21 @@ int	main(int argc, char **argv)
 	This function initialize the simulation
 */
 {
-	t_rules	rules;
+	t_rules	*rules;
 
+	rules = malloc(sizeof(t_rules));
+	if (rules == NULL)
+	{
+		printf("Error\nEchec de l'allocation mémoire pour t_rules\n");
+		return (1);
+	}
 	if (argc < 5 || argc > 6)
 		printf("Error\nPlease enter only 4 or 5 arguments\n");
 	else
 	{
-		init_args(argc, argv, &rules);
-		init_philo(&rules);
-		start_simulation(&rules);
+		init_args(argc, argv, rules);
+		init_philo(rules);
+		start_simulation(rules);
 	}
 	return (1);
 }
