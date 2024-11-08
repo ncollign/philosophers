@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:17:18 by ncollign          #+#    #+#             */
-/*   Updated: 2024/11/04 17:17:21 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/11/08 12:20:37 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,12 @@ void	*observer(void *arg)
 				nb_eat_reached = 0;
 			if (i == 4 && nb_eat_reached == 1)
 			{
-				printf("Every philo has eat at leat %d times\n", rules->nb_time_eat);
+				pthread_mutex_lock(&rules->print_mutex);
+				printf("Every philo has eat at least %d times\n", rules->nb_time_eat);
+				pthread_mutex_unlock(&rules->print_mutex);
 				cleanup(rules);
 				exit(EXIT_SUCCESS);
 			}
-				
 			i++;
 		}
 		usleep(1000);
