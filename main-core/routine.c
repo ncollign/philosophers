@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:03:01 by ncollign          #+#    #+#             */
-/*   Updated: 2024/11/11 18:19:45 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/11/11 19:51:37 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	print_message(char *message, t_philo *philo)
 		current_time = get_current_time(philo->rules);
 		pthread_mutex_lock(&philo->rules->print_mutex);
 		printf("%ld %d %s\n", current_time, philo->id, message);
-		pthread_mutex_unlock(&philo->rules->print_mutex);	
+		pthread_mutex_unlock(&philo->rules->print_mutex);
 	}
 }
 
@@ -56,7 +56,7 @@ static void	philo_eat(t_philo *philo)
 */
 {
 	long	current_time;
-	
+
 	pthread_mutex_lock(&philo->rules->forks[philo->l_fork_id]);
 	print_message("has taken a fork", philo);
 	if (philo->rules->nb_philo != 1)
@@ -77,17 +77,17 @@ static void	philo_eat(t_philo *philo)
 
 void	*routine(void *arg)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-    philo->last_meal = get_current_time(philo->rules);
+	philo->last_meal = get_current_time(philo->rules);
 	if (philo->id % 2)
 		usleep(15000);
-    while (philo->rules->is_simulation_running)
-    {
-        philo_eat(philo);
+	while (philo->rules->is_simulation_running)
+	{
+		philo_eat(philo);
 		philo_sleep(philo);
-        philo_think(philo);
-    }
-    return (NULL);
+		philo_think(philo);
+	}
+	return (NULL);
 }
