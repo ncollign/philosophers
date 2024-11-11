@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:17:18 by ncollign          #+#    #+#             */
-/*   Updated: 2024/11/08 14:03:23 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/11/11 16:54:02 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,16 @@ void	*observer(void *arg)
 			time_since_last_meal = get_current_time(rules) - rules->philos[i].last_meal;
 			if (time_since_last_meal >= rules->time_to_die)
 			{
+				rules->is_simulation_running = 0;
+				usleep(200);
 				pthread_mutex_lock(&rules->print_mutex);
 				printf("%ld %d died\n", get_current_time(rules), rules->philos[i].id);
 				pthread_mutex_unlock(&rules->print_mutex);
-				rules->is_simulation_running = 0;
 				break;
 			}
 			if ((nb_eat_reached == 1) && (rules->philos[i].nb_eat < rules->nb_time_eat))
+				nb_eat_reached = 0;
+			if (rules->nb_time_eat == -1)
 				nb_eat_reached = 0;
 			if (i == 4 && nb_eat_reached == 1)
 			{

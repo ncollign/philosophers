@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:19:05 by ncollign          #+#    #+#             */
-/*   Updated: 2024/11/08 13:51:37 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/11/11 16:41:05 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ int	main(int argc, char **argv)
 	else
 	{
 		init_args(argc, argv, rules);
+		if (rules->nb_time_eat == 0)
+			return (1);
 		init_philo(rules);
 		start_simulation(rules);
 	}
