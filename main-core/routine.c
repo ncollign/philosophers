@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 11:03:01 by ncollign          #+#    #+#             */
-/*   Updated: 2024/11/08 14:02:20 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/11/11 18:19:45 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	philo_think(t_philo *philo)
 */
 {
 	print_message("is thinking", philo);
-	usleep(5000);
+	usleep(1000);
 }
 
 static void	philo_sleep(t_philo *philo)
@@ -59,15 +59,20 @@ static void	philo_eat(t_philo *philo)
 	
 	pthread_mutex_lock(&philo->rules->forks[philo->l_fork_id]);
 	print_message("has taken a fork", philo);
-	pthread_mutex_lock(&philo->rules->forks[philo->r_fork_id]);
-	print_message("has taken a fork", philo);
-	print_message("is eating", philo);
-	current_time = get_current_time(philo->rules);
-	philo->last_meal = current_time;
-	usleep(philo->rules->time_to_eat * 1000);
-	philo->nb_eat++;
-	pthread_mutex_unlock(&philo->rules->forks[philo->r_fork_id]);
-	pthread_mutex_unlock(&philo->rules->forks[philo->l_fork_id]);
+	if (philo->rules->nb_philo != 1)
+	{
+		pthread_mutex_lock(&philo->rules->forks[philo->r_fork_id]);
+		print_message("has taken a fork", philo);
+		print_message("is eating", philo);
+		current_time = get_current_time(philo->rules);
+		philo->last_meal = current_time;
+		usleep(philo->rules->time_to_eat * 1000);
+		philo->nb_eat++;
+		pthread_mutex_unlock(&philo->rules->forks[philo->r_fork_id]);
+		pthread_mutex_unlock(&philo->rules->forks[philo->l_fork_id]);
+	}
+	else
+		usleep(philo->rules->time_to_die * 1000);
 }
 
 void	*routine(void *arg)
