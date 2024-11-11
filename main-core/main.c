@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 14:19:05 by ncollign          #+#    #+#             */
-/*   Updated: 2024/11/11 16:41:05 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/11/11 21:47:05 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,17 @@ static int	is_valid_arg(char *arg)
 	return (1);
 }
 
+static void	define_args(t_rules *rules, int argc, char **args)
+{
+	rules->time_to_die = ft_atoi(args[2]);
+	rules->time_to_eat = ft_atoi(args[3]);
+	rules->time_to_sleep = ft_atoi(args[4]);
+	if (argc == 6)
+		rules->nb_time_eat = ft_atoi(args[5]);
+	else
+		rules->nb_time_eat = -1;
+}
+
 static void	init_args(int argc, char **args, t_rules *rules)
 /*
 	This function verifies each argument and define it in a struct
@@ -71,13 +82,7 @@ static void	init_args(int argc, char **args, t_rules *rules)
 		printf("Error\nInvalid arguments\n");
 		exit(EXIT_FAILURE);
 	}
-	rules->time_to_die = ft_atoi(args[2]);
-	rules->time_to_eat = ft_atoi(args[3]);
-	rules->time_to_sleep = ft_atoi(args[4]);
-	if (argc == 6)
-		rules->nb_time_eat = ft_atoi(args[5]);
-	else
-		rules->nb_time_eat = -1;
+	define_args(rules, argc, args);
 }
 
 int	main(int argc, char **argv)

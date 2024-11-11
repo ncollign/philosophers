@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 10:48:47 by ncollign          #+#    #+#             */
-/*   Updated: 2024/11/11 18:44:48 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/11/11 21:42:08 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,11 @@ void	start_simulation(t_rules *rules)
 	i = 0;
 	while (i < rules->nb_philo)
 	{
-		pthread_create(&(rules->philos[i].thread_id), NULL, routine, &(rules->philos[i]));
+		pthread_create(&(rules->philos[i].thread_id), NULL,
+			routine, &(rules->philos[i]));
 		i++;
 	}
 	pthread_create(&observer_thread, NULL, observer, rules);
-	/*i = 0;	
-	while (i < rules->nb_philo)
-	{
-		pthread_join(rules->philos[i].thread_id, NULL);
-		i++;
-	}*/
 	pthread_join(observer_thread, NULL);
 	free(rules);
 }
