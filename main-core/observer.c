@@ -6,7 +6,7 @@
 /*   By: ncollign <ncollign@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 12:17:18 by ncollign          #+#    #+#             */
-/*   Updated: 2024/11/11 21:33:48 by ncollign         ###   ########.fr       */
+/*   Updated: 2024/11/19 15:12:47 by ncollign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,9 @@ static int	check_meal(t_rules *rules, int nb_eat_reached, int i)
 		nb_eat_reached = 0;
 	if (rules->nb_time_eat == -1)
 		nb_eat_reached = 0;
-	if (i == 4 && nb_eat_reached == 1)
+	if ((i == rules->nb_philo - 1) && (nb_eat_reached == 1))
 	{
-		pthread_mutex_lock(&rules->print_mutex);
-		printf("Every philo has eat at least %d times\n",
-			rules->nb_time_eat);
-		pthread_mutex_unlock(&rules->print_mutex);
+		usleep(rules->time_to_eat * 1000);
 		rules->is_simulation_running = 0;
 		return (1);
 	}
